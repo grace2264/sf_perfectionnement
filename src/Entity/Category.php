@@ -2,15 +2,15 @@
 
 namespace App\Entity;
 
-use App\Repository\WriterRepository;
+use App\Repository\CategoryRepository;
 use Doctrine\Common\Collections\ArrayCollection;
 use Doctrine\Common\Collections\Collection;
 use Doctrine\ORM\Mapping as ORM;
 
 /**
- * @ORM\Entity(repositoryClass=WriterRepository::class)
+ * @ORM\Entity(repositoryClass=CategoryRepository::class)
  */
-class Writer
+class Category
 {
     /**
      * @ORM\Id
@@ -25,12 +25,12 @@ class Writer
     private $name;
 
     /**
-     * @ORM\Column(type="string", length=255)
+     * @ORM\Column(type="text")
      */
-    private $firstname;
+    private $description;
 
     /**
-     * @ORM\OneToMany(targetEntity=Article::class, mappedBy="writer")
+     * @ORM\OneToMany(targetEntity=Article::class, mappedBy="category")
      */
     private $articles;
 
@@ -56,14 +56,14 @@ class Writer
         return $this;
     }
 
-    public function getFirstname(): ?string
+    public function getDescription(): ?string
     {
-        return $this->firstname;
+        return $this->description;
     }
 
-    public function setFirstname(string $firstname): self
+    public function setDescription(string $description): self
     {
-        $this->firstname = $firstname;
+        $this->description = $description;
 
         return $this;
     }
@@ -80,7 +80,7 @@ class Writer
     {
         if (!$this->articles->contains($article)) {
             $this->articles[] = $article;
-            $article->setWriter($this);
+            $article->setCategory($this);
         }
 
         return $this;
@@ -90,8 +90,8 @@ class Writer
     {
         if ($this->articles->removeElement($article)) {
             // set the owning side to null (unless already changed)
-            if ($article->getWriter() === $this) {
-                $article->setWriter(null);
+            if ($article->getCategory() === $this) {
+                $article->setCategory(null);
             }
         }
 
