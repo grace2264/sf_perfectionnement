@@ -1,11 +1,8 @@
 <?php
-
 namespace App\Repository;
-
 use App\Entity\Article;
 use Doctrine\Bundle\DoctrineBundle\Repository\ServiceEntityRepository;
 use Doctrine\Persistence\ManagerRegistry;
-
 /**
  * @method Article|null find($id, $lockMode = null, $lockVersion = null)
  * @method Article|null findOneBy(array $criteria, array $orderBy = null)
@@ -17,6 +14,27 @@ class ArticleRepository extends ServiceEntityRepository
     public function __construct(ManagerRegistry $registry)
     {
         parent::__construct($registry, Article::class);
+    }
+
+    public function searchByTerm($term)
+    {
+        // QueryBuilder permet de créer des requêtes SQL en PHP
+        $queryBuilder = $this->createQueryBuilder('article');
+
+        $query = $queryBuilder
+            ->select('article') // select sur la table article
+            ->leftJoin('article.category', 'category') // leftjoin sur la table category
+            ->leftJoin('article.writer', 'writer') // leftjoin sur la table writer
+            ->where('article.title LIKE :term') // WHERE de SQL
+            ->orWhere('article.content LIKE :term') // OR WHERE de SQL
+            ->orWhere('category.name LIKE :term')
+            ->orWhere('category.description LIKE :term')
+            ->orWhere('writer.name LIKE :term')
+            ->orWhere('writer.firstname LIKE :term')
+            ->setParameter('term', '%' . $term . '%') // On attribue le term rentré et on le sécurise
+            ->getQuery();
+
+        return $query->getResult();
     }
 
     // /**
@@ -35,7 +53,6 @@ class ArticleRepository extends ServiceEntityRepository
         ;
     }
     */
-
     /*
     public function findOneBySomeField($value): ?Article
     {
