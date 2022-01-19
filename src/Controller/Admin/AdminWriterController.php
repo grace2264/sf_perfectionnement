@@ -76,4 +76,3 @@ class AdminWriterController extends AbstractController
         return $this->render('admin/search.html.twig', ['term' => $term, 'writers' => $writers]);
     }
 }
-}

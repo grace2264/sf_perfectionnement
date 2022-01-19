@@ -1,21 +1,27 @@
 admin_search:
   path: /admin/search
   controller: App\Controller\Admin\AdminWriterController::adminSearch
+
 admin_delete_writer:
   path: admin/delete/writer/{id}
   controller: App\Controller\Admin\AdminWriterController::adminDeleteWriter
+
 admin_writer_create:
   path: admin/create/writer
   controller: App\Controller\Admin\AdminWriterController::adminWriterCreate
+
 admin_update_writer:
   path: admin/update/writer/{id}
   controller: App\Controller\Admin\AdminWriterController::adminUpdateWriter
+
 admin_writer_show:
   path: admin/writer/{id}
   controller: App\Controller\Admin\AdminWriterController::adminShowWriter
+
 admin_writer_list:
   path: admin/writers
   controller: App\Controller\Admin\AdminWriterController::adminListWriter
+  
 admin_article_list:
   path: admin/articles
   controller: App\Controller\Admin\AdminArticleController::articleList
